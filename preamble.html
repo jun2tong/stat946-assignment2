@@ -1,0 +1,106 @@
+<!-- Latex macros for html output
+
+A few very common things you should use:
+
+- $\bm{}$: Bold math.  Use bold for everything except scalars.
+- $\tx{}$: Text within math.  Use for abbreviating words, e.g., $A_{\tx{miss}}$.
+- $\xx, \YY$: Default macro convention for bold letters (small and capital case).
+- $\aal, \TTh$: Default macro convention for bold symbols (first two letters of symbol name, i.e., $\bm{\alpha}$ and $\bm{\Theta}$).
+- common stats symbols e.g., $\var$, $\cov$, $\iid$, $\N, defined below.
+-->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      TeX: {
+	  Macros: {
+	      bm: ["\\boldsymbol{#1}",1],
+	      tx: ["\\textrm{#1}",1],
+	      rv: ["#2_{#1},\\ldots,#2_{#3}",3,"1"],
+	      iid: ["\\overset{\\;\\tx{iid}\\;}{\\sim}"],
+	      ind: ["\\overset{\\:\\tx{ind}\\:}{\\sim}"],
+	      var: ["\\operatorname{var}"],
+	      cov: ["\\operatorname{cov}"],
+	      cor: ["\\operatorname{cor}"],
+	      diag: ["\\operatorname{diag}"],
+	      logit: ["\\operatorname{logit}"],
+	      N: ["\\mathcal{N}"],
+	      unif: ["\\operatorname{Unif}"],
+	      ud: ["\\mathop{}\\!\\mathrm{d}"],
+	      der: ["\\frac{\\ud^{#1}}{\\ud{#2}^{#1}}", 2, ""],
+	      del: ["\\frac{\\partial^{#1}}{\\partial{#2}^{#1}}", 2, ""],
+	      fder: ["\\frac{\\ud^{#1}#3}{\\ud{#2}^{#1}}", 3, ""],
+	      fdel: ["\\frac{\\partial^{#1}#3}{\\partial{#2}^{#1}}", 3, ""],
+	      hess: ["\\frac{\\partial^2}{\\partial{#1}\\partial{#1}'}", 1],
+	      fhess: ["\\frac{\\partial^2#2}{\\partial{#1}\\partial{#1}'}", 2],
+              kbt: ["k_{\\tx{B}}T"],
+	      IH: ["{\\mathfrak P}"],
+	      eps: ["\\varepsilon"],
+	      paug: ["p_{\\tx{A}}"],
+	      Ka: ["{\\mathcal K}"],
+	      Ua: ["{\\mathcal U}"],
+	      Ha: ["{\\mathcal H}"],
+	      curr: ["{\\tx{curr}}"],
+	      prop: ["{\\tx{prop}}"],
+	      obs: ["{\\tx{obs}}"],
+	      bz: ["{\\bm{0}}"],
+	      mm: ["{\\bm{m}}"],
+	      ww: ["{\\bm{w}}"],
+	      vv: ["{\\bm{v}}"],
+	      xx: ["{\\bm{x}}"],
+	      yy: ["{\\bm{y}}"],
+	      zz: ["{\\bm{z}}"],
+	      UU: ["{\\bm{U}}"],
+	      XX: ["{\\bm{X}}"],
+	      YY: ["{\\bm{Y}}"],
+	      ZZ: ["{\\bm{Z}}"],
+	      aal: ["{\\bm{\\alpha}}"],
+	      bbe: ["{\\bm{\\beta}}"],
+	      gga: ["{\\bm{\\gamma}}"],
+	      eet: ["{\\bm{\\eta}}"],
+	      lla: ["{\\bm{\\lambda}}"],
+	      mmu: ["{\\bm{\\mu}}"],
+	      pph: ["{\\bm{\\phi}}"],
+	      pps: ["{\\bm{\\psi}}"],
+	      rrh: ["{\\bm{\\rho}}"],
+	      ssi: ["{\\bm{\\sigma}}"],
+	      tta: ["{\\bm{\\tau}}"],
+	      tth: ["{\\bm{\\theta}}"],
+	      GGa: ["{\\bm{\\Gamma}}"],
+	      SSi: ["{\\bm{\\Sigma}}"],
+	      TTh: ["{\\bm{\\Theta}}"],
+	      cU: ["\\bm{\\mathcal{U}}"],
+	      rx: ["{\\tx{x}}"],
+	      ry: ["{\\tx{y}}"],
+	      rz: ["{\\tx{z}}"],
+	      rvx: ["{\\mathbf{x}}"],
+	      rvz: ["{\\mathbf{z}}"],
+	      rvc: ["{\\mathbf{c}}"],
+	      rvzl: ["{\\mathbf{z}^{\\tx{l}}}"],
+	      rvzg: ["{\\mathbf{z}^{\\tx{g}}}"],
+	      rvt: ["{\\mathbf{t}}"],
+	      Q: ["{\\mathcal{Q}}"],
+	      O: ["{\\mathcal{O}}"],
+	      U: ["{\\mathcal{U}}"],
+	      R: ["{\\mathbb{R}}"],
+	      kl: ["{\\operatorname{KL}}"],
+	      sfT: ["{\\mathsf{T}}"],
+	      sfk: ["{\\mathsf{k}}"],
+	      sfa: ["{\\mathsf{a}}"],
+	      sfh: ["{\\mathsf{h}}"],
+  	      sfkl: ["{\\mathsf{k}^{\\tx{l}}}"],
+	      sfal: ["{\\mathsf{a}^{\\tx{l}}}"],
+	      sfhl: ["{\\mathsf{h}^{\\tx{l}}}"],
+  	      sfkg: ["{\\mathsf{k}^{\\tx{g}}}"],
+	      sfag: ["{\\mathsf{a}^{\\tx{g}}}"],
+	      sfhg: ["{\\mathsf{h}^{\\tx{g}}}"],
+	      sft: ["{\\mathsf{t}}"],
+	      sfr: ["{\\mathsf{r}}"],
+	      argmin: ["\\operatorname{arg\\,min}}"],
+	      argmax: ["\\operatorname{arg\\,max}"],
+	      E: ["{\\mathbb{E}}"],
+	      L: ["{\\mathcal{L}}"],
+	      ellap: ["\\ell_{\\tx{Lap}}"]
+	  }
+      }
+  });
+</script>
+
