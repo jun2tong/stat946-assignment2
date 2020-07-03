@@ -16,12 +16,21 @@ output:
 ---
 
 
-# Introduction Outline
+# Assignment Outline
 
 In this assignment, we use truncated stick-breaking representation of dirichlet process mixture model (DPMM) to model synthetic generated data.
-Variational inference technique is used to approximate the posterior distribution of DPMM.
-Marginalization of discrete random variable is presented to reduce variation of gradient to provide stable training.
-An example of prune heuristic is presented.
+Variational inference (VI) technique is used to approximate the posterior distribution of DPMM.
+Since VI cast an inference problem into an optimization problem, we leverage **Pyro** for this assignment.
+**Pyro** was chosen as it is built on top of **PyTorch**'s optimization library which is a commonly used library in machine learning community. 
+
+This assignment also showcases marginalization of discrete random variable for variance reduce on gradient to provide stable training.
+In addition, this assignment also provide a way to check for the posterior distribution in **Pyro**.
+
+Some software requirement:  
+
+- **Pyro** version 1.3.1
+- **PyTorch** version 1.5
+- Python version 3.7
 
 ## Problem Statement
 
@@ -45,18 +54,23 @@ Note for simplicity, we let $T$ be a truncation value.
 The generative process is coded in Pyro as such^[Although the formulation is presented for data in $\mathbb{R}^1$, the code is written in such a way that it is ready for use with higher dimension.]:
 ```{python, eval=F}
 def model(self, data, batch_idx):
+    # The beta's are conditionally independent.
     with pyro.plate("beta_plate", self.T - 1):
         beta = pyro.sample("beta", dist.Beta(1, self.alpha))
 
+    # The components are conditionally independent.
+    # to_event(1) indicates the second dimension of the tensor are dependent.
     with pyro.plate("mu_plate", self.T):
         mu_sd = pyro.sample("musd", dist.InverseGamma(torch.ones_like(self.sd_q1),
                                                       torch.ones_like(self.sd_q2)).to_event(1))
         mu_c = pyro.sample("mu", dist.Normal(self.mu_c,
                                              mu_sd*torch.ones_like(self.mu_c)).to_event(1))
 
+    # The data is conditionally independent.
     with pyro.plate("data", size=self.num_obs, subsample=batch_idx):
-        ys = pyro.sample(f"cat", dist.Categorical(mix_weights(beta)), infer={"enumerate": "parallel"})
-        pyro.sample(f"obs", dist.Normal(mu_c[ys], mu_sd[ys]).to_event(1), obs=data[batch_idx])
+        ys = pyro.sample("cat", dist.Categorical(mix_weights(beta)), infer={"enumerate": "parallel"})
+        pyro.sample("obs", dist.Normal(mu_c[ys], mu_sd[ys]).to_event(1), obs=data[batch_idx])
+
 
 ```
 
@@ -89,9 +103,9 @@ In Pyro, the variational distribution (called _guide_) is written as,
 ```{python, eval=F}
 def guide(self, data, batch_idx):
 
-    # Define the variational parameters
-    alpha_q = pyro.param('alpha_q', self.alpha_q, constraint=constraints.positive) 
-    phi = pyro.param('pi_q', self.pi_c, constraint=constraints.simplex)
+    # Define all the variational parameters
+    alpha_q = pyro.param('alpha_q', self.alpha_q, constraint=constraints.positive)
+    rho = pyro.param('rho', self.rho, constraint=constraints.simplex)
     mu_q = pyro.param("mu_q", self.mu_c)
     sd_q1 = pyro.param('sd_q1', self.sd_q1)
     sd_q2 = pyro.param('sd_q2', self.sd_q2)
@@ -104,7 +118,8 @@ def guide(self, data, batch_idx):
         mu_c = pyro.sample("mu", dist.Normal(mu_q, mu_sd).to_event(1))
 
     with pyro.plate("data", size=self.num_obs, subsample=batch_idx):
-        f_cat = pyro.sample(f"cat", dist.Categorical(phi[batch_idx]))
+        f_cat = pyro.sample("cat", dist.Categorical(rho[batch_idx]))
+
 ```
 
 
