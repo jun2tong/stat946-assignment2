@@ -187,7 +187,9 @@ Sometimes in practice, the loss value can be so high that we could not train the
 
 The loss seems to decrease over iterations and converge. 
 However, variational inference can be stuck at a bad minima. 
-Thus, we do posterior predictive check using Pyro's `Predictive` function to sample from posterior distribution.
+Thus, we do posterior predictive check using Pyro's `Predictive` function. 
+This function first samples all latent variables from the trained _guide_; then using these samples to create a conditioned model and then sample from the conditioned model.
+In short, this function allows us to sample from $p(x_{new} \mid \xx)$.
 
 ```{python, eval=F}
 predictive = Predictive(model.model, guide=model.guide, num_samples=1000)
